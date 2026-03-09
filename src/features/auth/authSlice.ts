@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { signUpUser, loginUser } from '../../services/auth';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { signUpUser, loginUser } from "../../services/auth";
 
 interface AuthState {
   user: null | object;
@@ -12,20 +12,20 @@ const initialState: AuthState = {
   user: null,
   token: null,
   isLoading: false,
-  error: null
+  error: null,
 };
 
-export const signUp = createAsyncThunk('auth/signup', signUpUser);
-export const login = createAsyncThunk('auth/login', loginUser);
+export const signUp = createAsyncThunk("auth/signup", signUpUser);
+export const login = createAsyncThunk("auth/login", loginUser);
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     logout: (state) => {
       state.user = null;
       state.token = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -36,10 +36,12 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.access);
+        localStorage.setItem("refresh", action.payload.refresh);
       })
       .addCase(signUp.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || 'Signup failed';
+        state.error = action.error.message || "Signup failed";
       })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
@@ -48,12 +50,14 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.access);
+        localStorage.setItem("refresh", action.payload.refresh);
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || 'Login failed';
+        state.error = action.error.message || "Login failed";
       });
-  }
+  },
 });
 
 export const { logout } = authSlice.actions;
