@@ -1,7 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../features/auth/authSlice';
+import type { AppDispatch } from '../app/store';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,10 +21,20 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add API call here later
-    console.log(formData);
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match");
+      return;
+    }
+
+    try {
+      await dispatch(signUp(formData)).unwrap();
+      navigate('/');
+    } catch (error) {
+      console.error('Signup failed:', error);
+    }
   };
 
   return (
