@@ -1,15 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { signUpUser, loginUser } from "../../services/auth";
 
+interface User {
+  id: number;
+  email: string;
+  username: string;
+  phone_number: string;
+}
+
 interface AuthState {
-  user: null | object;
+  user: null | User;
   token: null | string;
   isLoading: boolean;
   error: null | string;
 }
+
+// Get stored user from localStorage
+const getStoredUser = (): null | User => {
+  const storedUser = localStorage.getItem('user');
+  return storedUser ? JSON.parse(storedUser) : null;
+};
+
 const initialState: AuthState = {
-  user: null,
-  token: null,
+  user: getStoredUser(),
+  token: localStorage.getItem('token'),
   isLoading: false,
   error: null,
 };
@@ -22,6 +36,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
+      localStorage.removeItem('user');
     },
   },
   extraReducers: (builder) => {
@@ -35,6 +50,7 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         localStorage.setItem("token", action.payload.access);
         localStorage.setItem("refresh", action.payload.refresh);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(signUp.rejected, (state, action) => {
         state.isLoading = false;
@@ -49,6 +65,7 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         localStorage.setItem("token", action.payload.access);
         localStorage.setItem("refresh", action.payload.refresh);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
         console.log("Login response............:", action.payload);
       })
       .addCase(login.rejected, (state, action) => {
