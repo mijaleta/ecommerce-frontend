@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../features/auth/authSlice';
 import type { AppDispatch } from '../app/store';
+import type { RootState } from '../app/store';
+import { FaSpinner } from 'react-icons/fa';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -101,9 +104,17 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            disabled={isLoading}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Sign Up
+            {isLoading ? (
+              <>
+                <FaSpinner className="animate-spin" />
+                Signing up...
+              </>
+            ) : (
+              'Sign Up'
+            )}
           </button>
         </form>
 
