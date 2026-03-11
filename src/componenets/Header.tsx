@@ -16,6 +16,7 @@ const Header = () => {
   };
 
   const isLoggedIn = !!token || !!user;
+  const isAdmin = user?.role === 'admin';
 
   return (
     <header className="bg-white shadow-md">
@@ -25,6 +26,9 @@ const Header = () => {
           <Link to="/" className="hover:text-blue-600">Home</Link>
           <Link to="/products" className="hover:text-blue-600">Products</Link>
           <Link to="/cart" className="hover:text-blue-600">Cart</Link>
+          {isAdmin && (
+            <Link to="/admin" className="hover:text-blue-600 text-blue-600 font-semibold">Admin</Link>
+          )}
           
           {isLoggedIn ? (
             <div className="flex items-center space-x-4">
