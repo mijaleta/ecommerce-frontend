@@ -32,16 +32,12 @@ export interface ProductFormData {
 }
 
 export const getProducts = async (): Promise<Product[]> => {
-  const response = await axios.get(`${API_URL}/api/products/`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await axios.get(`${API_URL}/api/products/`);
   return response.data;
 };
 
 export const getProduct = async (id: number): Promise<Product> => {
-  const response = await axios.get(`${API_URL}/api/products/${id}/`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await axios.get(`${API_URL}/api/products/${id}/`);
   return response.data;
 };
 
