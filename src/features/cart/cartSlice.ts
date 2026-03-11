@@ -79,11 +79,11 @@ const cartSlice = createSlice({
       .addCase(fetchCart.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchCart.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.cart = action.payload;
-        state.items = action.payload.items || [];
-      })
+    .addCase(fetchCart.fulfilled, (state, action) => {
+  state.isLoading = false;
+  state.cart = action.payload;
+  state.items = Array.isArray(action.payload.items) ? action.payload.items : [];
+})
       .addCase(fetchCart.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || 'Failed to fetch cart';
