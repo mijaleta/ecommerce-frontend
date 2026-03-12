@@ -24,7 +24,7 @@ export interface CartItem {
 export interface Cart {
   id: number;
   user: number;
-  items: CartItem[] | string; // Can be array or URL string
+  items: CartItem[] | string;  
   created_at: string;
   updated_at: string;
 }
