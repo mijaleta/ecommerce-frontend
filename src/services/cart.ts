@@ -76,37 +76,14 @@ export const removeFromCart = async (id: number): Promise<void> => {
   });
 };
 
+ 
+
 export const clearCart = async (): Promise<void> => {
-  const response = await axios.get(`${API_URL}/api/cart/`, {
-    headers: getAuthHeaders(),
-  });
-  const cartData = response.data;
-  
-  let items: CartItem[] = [];
-  
-  // If items is a URL string, fetch the items from that URL
-  if (typeof cartData.items === 'string') {
-    try {
-      const itemsResponse = await axios.get(cartData.items, {
-        headers: getAuthHeaders(),
-      });
-      items = itemsResponse.data.results || itemsResponse.data || [];
-    } catch (error) {
-      console.error('Failed to fetch cart items:', error);
-      items = [];
-    }
-  } else if (Array.isArray(cartData.items)) {
-    items = cartData.items;
-  }
-  
-  if (items.length > 0) {
-    // Delete each item in parallel
-    const deletePromises = items.map((item: CartItem) => 
-      removeFromCart(item.id).catch(err => {
-        console.warn(`Failed to remove item ${item.id}:`, err);
-      })
-    );
-    await Promise.all(deletePromises);
+  try {
+await axios.delete(`${API_URL}/api/cart/items/clear/`, {
+  headers: getAuthHeaders(),
+});
+  } catch (error) {
+    console.error('Failed to clear cart:', error);
   }
 };
-
