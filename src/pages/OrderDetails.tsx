@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrderById, cancelOrderById } from '../features/orders/orderSlice';
 import type { AppDispatch, RootState } from '../app/store';
@@ -15,8 +15,7 @@ const statusColors: Record<string, string> = {
 const OrderDetails = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const { currentOrder: order, isLoading, error } = useSelector((state: RootState) => state.orders);
+   const { currentOrder: order, isLoading, error } = useSelector((state: RootState) => state.orders);
   const { token } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {

@@ -26,7 +26,7 @@ const Products = () => {
       .then(() => {
         alert('Product added to cart!');
       })
-      .catch((error) => {
+      .catch((_error) => {
         alert('Failed to add product to cart');
       });
   };

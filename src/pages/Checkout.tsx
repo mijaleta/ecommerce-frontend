@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { fetchCart, clearAllItems } from '../features/cart/cartSlice';
 import { createNewOrder } from '../features/orders/orderSlice';
 import type { AppDispatch, RootState } from '../app/store';
-import { FaShoppingCart, FaShippingFast, FaCreditCard, FaCheck } from 'react-icons/fa';
+import { FaShoppingCart, FaShippingFast, FaCreditCard } from 'react-icons/fa';
 
 interface ShippingFormData {
   address: string;
