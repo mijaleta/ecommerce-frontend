@@ -4,7 +4,7 @@ import { logout } from '../features/auth/authSlice';
 import { fetchCart } from '../features/cart/cartSlice';
 import type { AppDispatch, RootState } from '../app/store';
 import { useEffect } from 'react';
-import { FaShoppingCart, FaSignOutAlt, FaBox } from 'react-icons/fa';
+import { FaShoppingCart, FaSignOutAlt, FaBox, FaListAlt } from 'react-icons/fa';
 
 const Header = () => {
   const { user, token } = useSelector((state: RootState) => state.auth);
@@ -49,6 +49,16 @@ const Header = () => {
               </span>
             )}
           </Link>
+          
+          {isLoggedIn && (
+            <Link 
+              to="/orders" 
+              className="hover:text-blue-600 transition flex items-center"
+            >
+              <FaListAlt className="mr-1" />
+              Orders
+            </Link>
+          )}
           
           {isAdmin && (
             <Link 

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   fetchCart, 
   updateItemQuantity, 
@@ -13,6 +13,7 @@ import { FaTrash, FaPlus, FaMinus, FaShoppingCart, FaArrowLeft } from 'react-ico
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { items, isLoading, error } = useSelector((state: RootState) => state.cart);
   const { token } = useSelector((state: RootState) => state.auth);
 
@@ -202,7 +203,7 @@ const Cart = () => {
                 </div>
                 <button 
                   className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
-                  onClick={() => alert('Proceeding to checkout...')}
+                  onClick={() => navigate('/checkout')}
                 >
                   Proceed to Checkout
                 </button>
